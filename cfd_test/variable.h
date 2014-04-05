@@ -17,10 +17,11 @@ public:
 	variable(grid* grid_in,grid::var_enum var,std::string name);
 	void read_from_file(int iter);
 	void write_to_file(int iter) const;
-	double get_value(int ix,int iy) const;
+	double get_value(const int& ix,const int& iy) const;
 	void set_value(double val,int ix,int iy);
 	grid::var_enum get_enum(){return _en_name;}
 	std::string get_name(){return _name;}
+	void copy(variable *var);
 	virtual ~variable();
 	std::vector<double> _grid_vector;
 private:

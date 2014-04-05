@@ -7,9 +7,17 @@
 
 #include "equation.h"
 #include "variable.h"
+#include "solver.h"
 
-equation::equation(variable* var) {
+equation::equation(variable* var, variable* source, solver* solver):
+  _var(var),_source(source),_solver(solver){
+	_solver->set_equation(this);
 
+
+}
+
+void equation::update(){
+	_solver->solve();
 
 }
 

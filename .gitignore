@@ -4,4 +4,5 @@ RemoteSystemsTempFiles/
 input.txt
 .ipynb_checkpoints
 cfd_test/Debug
+cfd_test/Release
 cfd_test/.*

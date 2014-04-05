@@ -15,8 +15,9 @@ class variable;
 
 class grid{
 public:
-	enum var_enum {en_x,en_y,en_sf};
-	enum test_enum {en_input_output};
+	enum var_enum {en_x,en_y,en_sf,en_sf_src,en_vort,en_vort_new,en_vort_src};
+	enum source_enum {from_file,en_fun};
+	enum test_enum {en_input_output,en_sor,en_euler};
 	grid(std::string);
 	int get_nx();
 	int get_ny();
@@ -26,9 +27,11 @@ public:
 	double get_Ly(){return _Ly;}
 	double get_test_id(){return _test_id;}
 	void add_var(variable* var);
-	variable& get_var(var_enum var);
+	variable* get_var(var_enum var);
 	virtual ~grid();
+	double get_input(std::string);
 protected:
+	std::map<std::string,double> _input_map;
 	int _nx, _ny;
 	test_enum _test_id;
 	double _Lx, _Ly, _dx, _dy;

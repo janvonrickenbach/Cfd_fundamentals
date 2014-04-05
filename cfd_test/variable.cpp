@@ -69,7 +69,7 @@ void variable::write_to_file(int iter) const {
 	out_file.close();
 }
 
-double variable::get_value(int ix, int iy) const {
+double variable::get_value(const int& ix, const int& iy) const {
 	return _grid_vector[_nx*iy+ix];
 }
 
@@ -82,3 +82,14 @@ void variable::set_value(double val,int ix, int iy) {
 variable::~variable() {
 }
 
+void variable::copy(variable* var) {
+	auto it     =_grid_vector.begin();
+	auto it_var =var->_grid_vector.begin();
+
+	for (it     = _grid_vector.begin(),
+		 it_var = var->_grid_vector.begin();
+		 it != _grid_vector.end();++it,++it_var){
+		*it = *it_var;
+	}
+
+}
