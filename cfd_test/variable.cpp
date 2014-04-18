@@ -20,7 +20,7 @@ variable::variable(grid* grid_in,grid::var_enum en_name,std::string name):
   _nx = _agrid->get_nx();
   _ny = _agrid->get_ny();
   _agrid->add_var(this);
-  _grid_vector.resize(_nx*_ny);
+  _grid_vector.resize(_nx*_ny,0.0);
 
 }
 
@@ -92,4 +92,10 @@ void variable::copy(variable* var) {
 		*it = *it_var;
 	}
 
+}
+
+void variable::multiply(double factor) {
+	for (auto& val : _grid_vector){
+	 	val = val*factor;
+	}
 }

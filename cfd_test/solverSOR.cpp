@@ -9,6 +9,7 @@
 #include "variable.h"
 #include "equation.h"
 #include <cmath>
+#include <iostream>
 
 solverSOR::solverSOR(double tolerance,grid* grid, double omega):
                      solver::solver(tolerance,grid), _omega(omega){
@@ -29,7 +30,10 @@ void solverSOR::solve(){
 
 	tol = 1.0;
     div = (2.0*(dx*dx + dy*dy));
-	while(_tolerance < tol){
+    int maxiter = 10000;
+    int iter=0;
+	while(_tolerance < tol && iter < maxiter){
+		iter = iter + 1;
 		tol = 0.0;
 		for (int ix=1;ix<_grid->get_nx()-1;ix++){
 			for(int iy=1;iy<_grid->get_ny()-1;iy++){
@@ -46,6 +50,8 @@ void solverSOR::solve(){
 			}
 		}
 	}
+	std::cout << "SOR converged in " << iter << " iterations"<< std::endl;
+
 
 }
 

@@ -18,8 +18,10 @@ solverEuler::solverEuler(double tolerance,grid* grid,double dt,double visc):
 
 void solverEuler::solve() {
 	variable* sf       = _grid->get_var(grid::en_sf);
-	variable* vort     = _grid->get_var(grid::en_vort);
 	variable* vort_new = _grid->get_var(grid::en_vort_new);
+
+	variable* vort     = _equation->get_var();
+
 	variable* vort_src = _equation->get_source();
 
 	double new_vort;

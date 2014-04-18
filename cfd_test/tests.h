@@ -11,8 +11,21 @@ class grid;
 #include "solverSOR.h"
 #include "solverEuler.h"
 #include "equation.h"
+#include "utils.h"
+#include "solverADI.h"
+#include <cmath>
 
-void test_input_output(grid* main_grid){
+
+namespace tests{
+   void test_input_output(grid* main_grid);
+   void test_sor(grid* main_grid);
+   void test_euler(grid* main_grid);
+   void test_cavity(grid* main_grid);
+   void test_TDM(grid* main_grid);
+
+
+}
+void tests::test_input_output(grid* main_grid){
 
 	variable* sf = new variable(main_grid,grid::en_sf,"streamfunction");
 
@@ -26,17 +39,17 @@ void test_input_output(grid* main_grid){
 	delete sf;
 }
 
-void test_sor(grid* main_grid){
+void tests::test_sor(grid* main_grid){
 
 	solver* sol_sor = new solverSOR(main_grid->get_input("tol"),main_grid,
 			                        main_grid->get_input("omega"));
 	variable* sf    = new variable(main_grid,grid::en_sf,"streamfunction");
-
 	sf->read_from_file(0);
 
 	variable* sf_src = new variable(main_grid,grid::en_sf_src,"stream_source");
-	equation* eq     = new equation(sf,sf_src,sol_sor);
 	sf_src->read_from_file(0);
+
+	equation* eq     = new equation(sf,sf_src,sol_sor);
 
 	eq->update();
 
@@ -48,7 +61,7 @@ void test_sor(grid* main_grid){
 	delete eq;
 }
 
-void test_euler(grid* main_grid){
+void tests::test_euler(grid* main_grid){
 
 	solver* sol_eul = new solverEuler(main_grid->get_input("tol"),main_grid,
 									  main_grid->get_input("dt"),
@@ -76,3 +89,98 @@ void test_euler(grid* main_grid){
 	delete eq;
 }
 
+
+void tests::test_cavity(grid* main_grid){
+
+	solver* sol_eul = new solverEuler(main_grid->get_input("tol"),main_grid,
+									  main_grid->get_input("dt"),
+									  main_grid->get_input("visc"));
+	solver* sol_sor = new solverSOR(main_grid->get_input("tol"),
+			                        main_grid,main_grid->get_input("omega"));
+	variable* sf        = new variable(main_grid,grid::en_sf,"streamfunction");
+	variable* vort      = new variable(main_grid,grid::en_vort,"vorticity");
+	variable* vort_new  = new variable(main_grid,grid::en_vort_new,"vorticity_new");
+
+	variable* zero_src = new variable(main_grid,grid::en_zero_src,"zero_src");
+	variable* sf_src   = new variable(main_grid,grid::en_sf_src,"sf_src");
+
+	variable* uvel = new variable(main_grid,grid::en_uvel,"uvel");
+	variable* vvel   = new variable(main_grid,grid::en_vvel,"vvel");
+
+	equation* eq_vort  = new equation(vort,zero_src,sol_eul);
+	equation* eq_sf    = new equation(sf,sf_src,sol_sor);
+
+	std::cout << "Initializing" << std::endl;
+	vort->read_from_file(0);
+	sf->read_from_file(0);
+	sf_src->copy(vort);
+	sf_src->multiply(-1.0);
+
+	utils::set_vort_bc(vort,sf,main_grid->get_nx(),main_grid->get_nx()
+			           ,main_grid->get_dx(),main_grid->get_dy());
+
+	double t=0.0;
+	double dt = main_grid->get_input("dt");
+	for (int ts=0;ts<main_grid->get_input("max_dt");++ts){
+	  t = t + dt;
+	  eq_vort->update();
+      sf_src->copy(vort);
+	  sf_src->multiply(-1.0);
+      utils::set_vort_bc(vort,sf,main_grid->get_nx(),main_grid->get_nx()
+			             ,main_grid->get_dx(),main_grid->get_dy());
+
+	  eq_sf->update();
+      vort->write_to_file(ts);
+      sf->write_to_file(ts);
+      sf_src->write_to_file(ts);
+      utils::get_velocities(sf,uvel,vvel,main_grid);
+      uvel->write_to_file(ts);
+      vvel->write_to_file(ts);
+	  std::cout << "At t=" << t << std::endl;
+	}
+
+
+	delete sol_eul;
+	delete sol_sor;
+	delete sf;
+	delete vort;
+	delete vort_new;
+	delete zero_src;
+	delete sf_src;
+	delete eq_vort;
+	delete eq_sf;
+}
+
+void tests::test_TDM(grid* main_grid){
+
+
+
+	std::vector<double> diagonal_a;
+	std::vector<double> diagonal_b;
+	std::vector<double> diagonal_c;
+	std::vector<double> rhs;
+	std::vector<double> sol;
+
+
+	diagonal_a = {0,-1,-1,-1};
+	diagonal_b = {4,4,4,4};
+	diagonal_c = {-1,-1,-1,0};
+	rhs        = {5,5,10,23};
+	sol        = {2,3,5,7};
+
+	solver_tools::solveTDM(diagonal_a,diagonal_b,diagonal_c,rhs);
+
+	auto iter_rhs = rhs.begin();
+	auto iter_sol = sol.begin();
+
+	double error = 0.0;
+	double diff  = 0.0;
+	for (iter_sol = sol.begin(), iter_rhs = rhs.begin();
+		 iter_sol != sol.end(); ++iter_sol, ++iter_rhs){
+		 diff = *iter_sol - *iter_rhs;
+		 error += pow(diff,2);
+	}
+
+	std::cout << "Error in TDM= " << error << std::endl;
+
+}

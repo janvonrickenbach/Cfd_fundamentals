@@ -22,6 +22,7 @@ public:
 	grid::var_enum get_enum(){return _en_name;}
 	std::string get_name(){return _name;}
 	void copy(variable *var);
+	void multiply(double factor);
 	virtual ~variable();
 	std::vector<double> _grid_vector;
 private:
