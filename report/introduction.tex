@@ -1,0 +1,76 @@
+\section{Introduction}
+%
+The goal of this project is to solve the lid driven cavity problem with using a stream function vorticity method. 
+
+\section{Methods}
+%
+The lid driven cavity problem can be formulated as:
+
+\begin{align*}
+\bar{x} = \frac{x}{L_{ref}}, & \bar{y} = \frac{y}{L_{ref}}, & \bar{t}= \frac{t u_{ref}}{L_{ref}} , & \bar{u}=\frac{u}{u_{ref}} , & \bar{v}=\frac{v}{v_{ref}},& \bar{\zeta} = \frac{\zeta L_{ref}}{u_{ref}}, \bar{\psi} = \frac{\psi}{u_{ref} L_{ref}} \\
+\end{align*}
+\begin{equation}
+\frac{\partial^2 \bar{\psi}}{\partial \bar{x}^2} + \frac{\partial^2 \bar{\psi}}{\partial \bar{y}^2}=-\bar{\zeta}
+\end{equation}
+and
+\begin{equation}
+\frac{\partial \bar{\zeta}}{\partial \bar{t}} + \bar{u} \frac{\partial \bar{\zeta}}{\partial \bar{x}} + \bar{v} \frac{\partial \bar{\zeta}}{\partial \bar{y}} = \frac{1}{Re} \left( \frac{\partial^2 \bar{\zeta}}{\partial \bar{x}^2} + \frac{\partial^2 \bar{\zeta}}{\partial \bar{y}^2} \right)
+\end{equation}
+where the velocities are given as:
+\begin{equation}
+\bar{u} = \frac{\partial \bar{\psi}}{\partial \bar{y}}
+\end{equation}
+and
+\begin{equation}
+\bar{v} = -\frac{\partial \bar{\psi}}{\partial \bar{x}}
+\end{equation}
+The boundary conditions are 
+\begin{equation}
+\bar{u} = \bar{v} = 0
+\end{equation}
+for all the walls except the top wall where:
+\begin{equation}
+\bar{u} = 1 
+\end{equation}
+\begin{equation}
+\bar{v} = 0
+\end{equation}
+This implies $u_{lid}$ = $u_{ref}$. The equations is discretized on a regular grid with grid spacing $\Delta x$ and $\Delta y$ which results in $nx = \Delta x /L $ and $ny = \Delta y / L$. We indicate a discrete point $x_i$ = $i \Delta x$ and $y_j = j \Delta y$  and use the notation
+\begin{equation}
+\phi_{i,j} = \phi(x_i,y_i)
+\end{equation} 
+The second derivatives in the vorticity equation are discretized with a centered second order scheme, which leads to the discretized streamfunction equation.
+\begin{equation}
+\left. \frac{\partial^2 \bar{\psi}}{\partial \bar{x}^2}\right|_{x_i,y_j} = \frac{\psi_{i-1,j} - 2 \psi_{i,j} + \psi_{i+1,j}}{\Delta x^2}
+\end{equation}
+\begin{equation}
+\left. \frac{\partial^2 \bar{\psi}}{\partial \bar{y}^2}\right|_{x_i,y_j} = \frac{\psi_{i,j-1} - 2 \psi_{i,j} + \psi_{i,j+1}}{\Delta y^2}
+\end{equation}
+This leads to a system of $(nx-2)(ny-2)$ unknowns for the internal grid points. We use a homogeneous Dirchlet boundary condition for the stream function since
+\begin{equation}
+\bar{v} = \frac{\partial \bar{\psi}}{\partial \bar{x}} = 0
+\end{equation}
+on the top and bottom boundary and
+\begin{equation}
+\bar{u} = -\frac{\partial \bar{\psi}}{\partial \bar{y}} = 0
+\end{equation}
+on the left and right boundary. Therfore the stream function is a constant on the boundary which we choose to set to zero.
+The terms in the vorticity equation are discretized as follows:
+\begin{equation}
+\bar{u}_{i,j} = - \frac{\bar{\psi}_{i,j+1} - \bar{\psi}_{i,j-1}}{2 \Delta y}
+\end{equation}
+\begin{equation}
+\bar{v}_{i,j} = \frac{\bar{\psi}_{i+1,j} - \bar{\psi}_{i-1,j}}{2 \Delta x}
+\end{equation}
+\begin{equation}
+\left. \frac{\partial \bar{\zeta}}{\partial \bar{x}} \right|_{i,j} = \frac{\bar{\zeta}_{i+1,j}- \bar{\zeta}_{i-1,j}}{2 \Delta x}
+\end{equation}
+\begin{equation}
+\left. \frac{\partial \bar{\zeta}}{\partial \bar{y}} \right|_{i,j} = \frac{\bar{\zeta}_{i,j+1}- \bar{\zeta}_{i,j-1}}{2 \Delta y}
+\end{equation}
+The diffusive term in the vorticity equation is discretized using second order finite differences\begin{equation}
+\left. \frac{\partial^2 \bar{\zeta}}{\partial \bar{x}^2}\right|_{x_i,y_j} = \frac{\zeta_{i-1,j} - 2 \zeta_{i,j} + \zeta_{i+1,j}}{\Delta x^2}
+\end{equation}
+\begin{equation}
+\left. \frac{\partial^2 \bar{\zeta}}{\partial \bar{y}^2}\right|_{x_i,y_j} = \frac{\zeta_{i,j-1} - 2 \zeta_{i,j} + \zeta_{i,j+1}}{\Delta y^2}
+\end{equation}
