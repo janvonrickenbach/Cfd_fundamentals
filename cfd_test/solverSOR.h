@@ -14,7 +14,7 @@ class equation;
 class solverSOR: public solver {
 public:
 	solverSOR(double tolerance,grid* grid, double omega);
-	virtual void solve();
+	virtual int solve();
 	virtual ~solverSOR();
 protected:
 	double _omega;

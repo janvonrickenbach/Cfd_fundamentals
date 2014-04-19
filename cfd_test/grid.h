@@ -16,8 +16,9 @@ class variable;
 class grid{
 public:
 	enum var_enum {en_x,en_y,en_sf,en_sf_src,en_vort,en_vort_new
-		          ,en_vort_src,en_zero_src,en_uvel,en_vvel};
-	enum test_enum {en_input_output,en_sor,en_euler,en_cavity,en_TDM};
+		          ,en_vort_src,en_zero_src,en_uvel,en_vvel,en_var_int};
+	enum test_enum {en_input_output,en_sor,en_euler,en_cavity_sor,en_cavity_adi
+		           ,en_TDM,en_adi};
 	grid(std::string);
 	int get_nx();
 	int get_ny();

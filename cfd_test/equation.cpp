@@ -16,8 +16,8 @@ equation::equation(variable* var, variable* source, solver* solver):
 
 }
 
-void equation::update(){
-	_solver->solve();
+int equation::update(){
+	return _solver->solve();
 
 }
 

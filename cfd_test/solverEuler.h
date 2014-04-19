@@ -14,7 +14,7 @@ class grid;
 class solverEuler: public solver {
 public:
 	solverEuler(double tolerance, grid* grid,double dt,double visc);
-	virtual void solve();
+	virtual int solve();
 	virtual ~solverEuler();
 protected:
 	double _dt;

@@ -14,7 +14,7 @@ class solver {
 public:
 	solver(double tolerance, grid* grid);
 	virtual void set_equation(equation* equation){_equation = equation;}
-	virtual void solve() = 0;
+	virtual int solve() = 0;
 	virtual ~solver();
 protected:
 	equation* _equation;

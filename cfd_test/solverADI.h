@@ -12,9 +12,10 @@
 #include<vector>
 
 class grid;
+class variable;
 namespace solver_tools{
-	void solveTDM(std::vector<double>& diagonal_a
-			     ,std::vector<double>& diagonal_b
+	void solveTDM(const std::vector<double>& diagonal_a
+			     ,const std::vector<double>& diagonal_b
 			     ,std::vector<double>& diagonal_c
 			     ,std::vector<double>& rhs);
 }
@@ -23,9 +24,11 @@ class solverADI: public solver {
 public:
 	solverADI(double tolerance,grid* grid);
 	virtual ~solverADI();
+	virtual int solve();
 
 protected:
 
+	variable* _var_int;
 	std::vector<double> _diagonal_a;
 	std::vector<double> _diagonal_b;
 	std::vector<double> _diagonal_c;

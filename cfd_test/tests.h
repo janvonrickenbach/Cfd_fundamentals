@@ -18,7 +18,7 @@ class grid;
 
 namespace tests{
    void test_input_output(grid* main_grid);
-   void test_sor(grid* main_grid);
+   void test_solver(grid* main_grid);
    void test_euler(grid* main_grid);
    void test_cavity(grid* main_grid);
    void test_TDM(grid* main_grid);
@@ -39,23 +39,29 @@ void tests::test_input_output(grid* main_grid){
 	delete sf;
 }
 
-void tests::test_sor(grid* main_grid){
+void tests::test_solver(grid* main_grid){
 
-	solver* sol_sor = new solverSOR(main_grid->get_input("tol"),main_grid,
-			                        main_grid->get_input("omega"));
+	solver* sol;
+	if (main_grid->get_test_id() == grid::en_sor){
+	   sol = new solverSOR(main_grid->get_input("tol"),main_grid,
+		    	                       main_grid->get_input("omega"));
+	}
+	if (main_grid->get_test_id() == grid::en_adi){
+	   sol = new solverADI(main_grid->get_input("tol"),main_grid);
+	}
 	variable* sf    = new variable(main_grid,grid::en_sf,"streamfunction");
 	sf->read_from_file(0);
 
 	variable* sf_src = new variable(main_grid,grid::en_sf_src,"stream_source");
 	sf_src->read_from_file(0);
 
-	equation* eq     = new equation(sf,sf_src,sol_sor);
+	equation* eq     = new equation(sf,sf_src,sol);
 
 	eq->update();
 
 	sf->write_to_file(1);
 
-	delete sol_sor;
+	delete sol;
 	delete sf;
 	delete sf_src;
 	delete eq;
@@ -74,7 +80,7 @@ void tests::test_euler(grid* main_grid){
 	sf->read_from_file(0);
 
 	variable* vort_src = new variable(main_grid,grid::en_vort_src,"vort_source");
-	equation* eq       = new equation(sf,vort_src,sol_eul);
+	equation* eq       = new equation(vort,vort_src,sol_eul);
 	vort_src->read_from_file(0);
 
 	eq->update();
@@ -95,8 +101,14 @@ void tests::test_cavity(grid* main_grid){
 	solver* sol_eul = new solverEuler(main_grid->get_input("tol"),main_grid,
 									  main_grid->get_input("dt"),
 									  main_grid->get_input("visc"));
-	solver* sol_sor = new solverSOR(main_grid->get_input("tol"),
-			                        main_grid,main_grid->get_input("omega"));
+
+	solver* sol_sf;
+	if (main_grid->get_test_id() == grid::en_cavity_sor){
+	   sol_sf = new solverSOR(main_grid->get_input("tol"),
+			                  main_grid,main_grid->get_input("omega"));
+	} else if (main_grid->get_test_id() == grid::en_cavity_adi){
+		sol_sf = new solverADI(main_grid->get_input("tol"),main_grid);
+	}
 	variable* sf        = new variable(main_grid,grid::en_sf,"streamfunction");
 	variable* vort      = new variable(main_grid,grid::en_vort,"vorticity");
 	variable* vort_new  = new variable(main_grid,grid::en_vort_new,"vorticity_new");
@@ -108,7 +120,7 @@ void tests::test_cavity(grid* main_grid){
 	variable* vvel   = new variable(main_grid,grid::en_vvel,"vvel");
 
 	equation* eq_vort  = new equation(vort,zero_src,sol_eul);
-	equation* eq_sf    = new equation(sf,sf_src,sol_sor);
+	equation* eq_sf    = new equation(sf,sf_src,sol_sf);
 
 	std::cout << "Initializing" << std::endl;
 	vort->read_from_file(0);
@@ -121,6 +133,8 @@ void tests::test_cavity(grid* main_grid){
 
 	double t=0.0;
 	double dt = main_grid->get_input("dt");
+	int iter;
+	int output_freq = (int) (main_grid->get_input("max_dt")) / 10;
 	for (int ts=0;ts<main_grid->get_input("max_dt");++ts){
 	  t = t + dt;
 	  eq_vort->update();
@@ -129,19 +143,22 @@ void tests::test_cavity(grid* main_grid){
       utils::set_vort_bc(vort,sf,main_grid->get_nx(),main_grid->get_nx()
 			             ,main_grid->get_dx(),main_grid->get_dy());
 
-	  eq_sf->update();
-      vort->write_to_file(ts);
-      sf->write_to_file(ts);
-      sf_src->write_to_file(ts);
+	  iter=eq_sf->update();
       utils::get_velocities(sf,uvel,vvel,main_grid);
-      uvel->write_to_file(ts);
-      vvel->write_to_file(ts);
-	  std::cout << "At t=" << t << std::endl;
+      if (ts%output_freq == 0  || ts==main_grid->get_input("max_dt")-1){
+         vort->write_to_file(ts);
+         sf->write_to_file(ts);
+         sf_src->write_to_file(ts);
+         uvel->write_to_file(ts);
+         vvel->write_to_file(ts);
+	     std::cout << "At t=" << t << std::endl;
+	     std::cout << "Solver converged in " << iter << " iterations" << std::endl;
+      }
 	}
 
 
 	delete sol_eul;
-	delete sol_sor;
+	delete sol_sf;
 	delete sf;
 	delete vort;
 	delete vort_new;

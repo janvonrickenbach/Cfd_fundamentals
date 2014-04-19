@@ -16,7 +16,7 @@ solverSOR::solverSOR(double tolerance,grid* grid, double omega):
 
 }
 
-void solverSOR::solve(){
+int solverSOR::solve(){
 	variable*  var   = _equation->get_var();
 	variable* source = _equation->get_source();
 
@@ -45,12 +45,13 @@ void solverSOR::solve(){
 				new_val = ((x_cont+y_cont) - source->get_value(ix,iy) *dx*dx*dy*dy)/div;
 				old_val = var->get_value(ix,iy);
 				new_val = (1.0-_omega) * old_val + _omega*new_val;
-				tol = std::max(std::abs(new_val - old_val)/(old_val+abstol),tol);
+//				tol = std::max(std::abs(new_val - old_val)/(old_val+abstol),tol);
+				tol = std::max(std::abs(new_val - old_val),tol);
 				var->set_value(new_val,ix,iy);
 			}
 		}
 	}
-	std::cout << "SOR converged in " << iter << " iterations"<< std::endl;
+	return iter;
 
 
 }

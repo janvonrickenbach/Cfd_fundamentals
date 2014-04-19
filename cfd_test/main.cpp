@@ -23,15 +23,17 @@ int main(){
 	if (main_grid->get_test_id() == grid::en_input_output){
 		tests::test_input_output(main_grid);
 	}
-	if (main_grid->get_test_id() == grid::en_sor){
-		tests::test_sor(main_grid);
+	if (main_grid->get_test_id() == grid::en_sor ||
+	    main_grid->get_test_id() == grid::en_adi){
+		tests::test_solver(main_grid);
 	}
 
 	if (main_grid->get_test_id() == grid::en_euler){
 		tests::test_euler(main_grid);
 	}
 
-	if (main_grid->get_test_id() == grid::en_cavity){
+	if ((main_grid->get_test_id() == grid::en_cavity_sor)
+	 || (main_grid->get_test_id() == grid::en_cavity_adi)){
 		tests::test_cavity(main_grid);
 	}
 

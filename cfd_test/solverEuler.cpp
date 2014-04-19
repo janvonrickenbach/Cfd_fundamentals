@@ -16,7 +16,7 @@ solverEuler::solverEuler(double tolerance,grid* grid,double dt,double visc):
 
 }
 
-void solverEuler::solve() {
+int solverEuler::solve() {
 	variable* sf       = _grid->get_var(grid::en_sf);
 	variable* vort_new = _grid->get_var(grid::en_vort_new);
 
@@ -49,6 +49,7 @@ void solverEuler::solve() {
 	}
 
 	vort->copy(vort_new);
+	return 0;
 }
 
 solverEuler::~solverEuler() {

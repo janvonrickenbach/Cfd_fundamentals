@@ -17,7 +17,7 @@ class equation {
 public:
 	equation(variable* var, variable* source,solver* solver);
 
-    void update();
+    int update();
 	virtual ~equation();
 	variable* get_var(){return _var;}
 	variable* get_source(){return _source;}
