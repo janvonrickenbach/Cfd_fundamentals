@@ -1,9 +1,10 @@
 \section{Introduction}
 %
-The goal of this project is to solve the lid driven cavity problem with using a stream function vorticity method. 
+The goal of this project is to solve the lid driven cavity problem using a stream function vorticity method. 
 
 \section{Methods}
 %
+\subsection{Problem statement}
 The lid driven cavity problem can be formulated as:
 
 \begin{align*}
@@ -35,7 +36,9 @@ for all the walls except the top wall where:
 \begin{equation}
 \bar{v} = 0
 \end{equation}
-This implies $u_{lid}$ = $u_{ref}$. The equations is discretized on a regular grid with grid spacing $\Delta x$ and $\Delta y$ which results in $nx = \Delta x /L $ and $ny = \Delta y / L$. We indicate a discrete point $x_i$ = $i \Delta x$ and $y_j = j \Delta y$  and use the notation
+This implies $u_{lid}$ = $u_{ref}$. 
+\subsection{Numerical discretization}
+The equations is discretized on a regular grid with grid spacing $\Delta x$ and $\Delta y$ which results in $nx = \Delta x /L $ and $ny = \Delta y / L$. We indicate a discrete point $x_i$ = $i \Delta x$ and $y_j = j \Delta y$  and use the notation
 \begin{equation}
 \phi_{i,j} = \phi(x_i,y_i)
 \end{equation} 
@@ -46,7 +49,7 @@ The second derivatives in the vorticity equation are discretized with a centered
 \begin{equation}
 \left. \frac{\partial^2 \bar{\psi}}{\partial \bar{y}^2}\right|_{x_i,y_j} = \frac{\psi_{i,j-1} - 2 \psi_{i,j} + \psi_{i,j+1}}{\Delta y^2}
 \end{equation}
-This leads to a system of $(nx-2)(ny-2)$ unknowns for the internal grid points. We use a homogeneous Dirchlet boundary condition for the stream function since
+We use a homogeneous Dirchlet boundary condition for the stream function since
 \begin{equation}
 \bar{v} = \frac{\partial \bar{\psi}}{\partial \bar{x}} = 0
 \end{equation}
@@ -54,7 +57,7 @@ on the top and bottom boundary and
 \begin{equation}
 \bar{u} = -\frac{\partial \bar{\psi}}{\partial \bar{y}} = 0
 \end{equation}
-on the left and right boundary. Therfore the stream function is a constant on the boundary which we choose to set to zero.
+on the left and right boundary. Therfore the stream function is a constant on the boundary which we choose to set to zero. This leads to a system of equations with $(nx-2)(ny-2)$ unknowns for the internal grid points. 
 The terms in the vorticity equation are discretized as follows:
 \begin{equation}
 \bar{u}_{i,j} = - \frac{\bar{\psi}_{i,j+1} - \bar{\psi}_{i,j-1}}{2 \Delta y}
@@ -74,3 +77,19 @@ The diffusive term in the vorticity equation is discretized using second order f
 \begin{equation}
 \left. \frac{\partial^2 \bar{\zeta}}{\partial \bar{y}^2}\right|_{x_i,y_j} = \frac{\zeta_{i,j-1} - 2 \zeta_{i,j} + \zeta_{i,j+1}}{\Delta y^2}
 \end{equation}
+\subsection{Solution of the discretized equations}
+The use two different methods to solve the streamfunction equation: Successive over-relaxation (SOR) and Alternate Implicit (ADI). In the SOR method we loop trough all the grid-points and update the values with.
+\begin{equation}
+\bar{\psi}_{i,j}^{n*} = \frac{(\bar{\psi}^n_{i+1,j} + \bar{\psi}^n_{i-1,j}) \Delta y^2 +
+(\bar{\psi}^n_{i,j+1} - \bar{\psi}^n_{i,j-1}) \Delta x^2 + \bar{\zeta}_{i,j} \Delta x^2 \Delta y^2}{2 (\Delta x + \Delta y)}
+\end{equation}
+and 
+\begin{equation}
+\bar{\psi}^{n+1}_{i,j} = \alpha \bar{\psi}_{i,j}^{n*} + (1-\alpha) \bar{\psi}^n_{i,j}
+\end{equation}
+The superscript indicates the iteration. We iterate until the error
+\begin{equation}
+e = max(abs(\bar{\psi}^{n+1}_{i,j} - \bar{\psi}^n_{i,j})
+\end{equation}
+is smaller than a prescribed iteration tolerance t.                                                                                                                                                                        We take the maximum over all the grid points.
+In the ADI method we iteratie

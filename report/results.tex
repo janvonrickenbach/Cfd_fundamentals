@@ -1,0 +1,93 @@
+\section{Results}
+\subsection{Code verification}
+\subsubsection{Stream function}
+To verfiy the correct implementation of the stream function equation we use the method of manufactured solutions. We use the manufactured solution:
+\begin{equation}
+\bar{\psi}_{m1}(x,y) = \sin(\pi x) \sin(\pi y).
+\end{equation}
+By substituting this into the stream-function equation we obtain the corresponding function for the vorticity that satisfies the differential equation:
+\begin{equation}
+\bar{\zeta}_{m1}(x,y) = 2 \pi^2 \sin(\pi x) \sin(\pi y) 
+\end{equation}
+As an initial condition the stream function is set to one everywhere except the bounndaries, where it is set to zero.
+In Fig. \ref{fig:code_verification_sf} we show the maximum error 
+\begin{equation}
+e_{max} = max(abs(\bar{\psi}_{m1} - \bar{\psi}))
+\end{equation}
+for different resolution on a computational domain extending from zero to one in the two coordinate directions.
+%
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.8]{"figs/code_verification_tol"}
+\caption{SOR and ADI}
+\label{fig:code_verification_sf}
+\end{figure}
+%
+The function 
+\begin{equation}
+f_2 = C \Delta x^2
+\end{equation}
+is shown as reference. The constant C is chosen such that $f_2$ lies close to the obtained solutions.  Figure \ref{fig:code_verification_sf} shows that the leading error term is second order for sufficently fine grids. If a large iteration tolerance is chosen, the iteration error becomes dominant for the finer grids with low discretization errors.  Behaviour of the two methods studied (ADI and SOR) is similar. Differences are expected since the iteration error depends on the method. In the range where the iteration error is small the two error in the two methods is essentially the same. This is expected since the numerical method used to solve the linear system is only reflected in the iteration error. For very fine grids it is expected, that truncation errors become significant. This was not observed for the current verification study, probably because the grids are not fine enough and the disretization error is still much larger than the truncation error.
+%
+%
+\subsubsection{Vorticity}
+In order to verify the implementation of the vorticity equation we choose the the same function for the vorticity as above for the stream function.
+\begin{equation}
+\bar{\zeta}_{m2}(x,y) = \sin(\pi x) \sin(\pi y)
+\end{equation}
+and for the stream-function we choose
+\begin{equation}
+\bar{\psi}_{m2}(x,y) = y-x
+\end{equation}
+which results in a velocity of one for the two velocity components. We choose a Re number of 1 and push all the term except the time derivate to the right hand side. With the manufactured solution we obtain the right hand side:
+\begin{equation}
+R (x,y) = -\pi (\cos(\pi x) \sin(\pi y) + \sin(\pi x) \cos(\pi y) - 2 \pi ^2 \sin(\pi x) \sin(\pi y) 
+\end{equation}
+We add a source term S to the right hand side of the vorticity equation:
+\begin{equation}
+S = -R
+\end{equation}
+If we then integrate the vorticity equation for a single time step with $\Delta \bar{t}=1$ with the manufactured solution as the initial condition we should obtain the unchanged initial condition. Figure \ref{fig:code_verification_vort} shows the error of the solution at $\Delta \bar{t}=1$ compared to the manufactured solution $\bar{\psi}_{m2}$. No iteration tolerance is involved and the time disretization error is zero since the soltution remains constant in the time interval considered. Therefore the dominating error term is the discretization error. The leading error of the discretization error is second order which can be seen in the plot. Again truncation errors are not observed even for the finest grids considered.
+%
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.8]{"figs/code_verification_euler"}
+\caption{Error in the advection diffusion terms}
+\label{fig:code_verification_euler}
+\end{figure}
+%
+\subsection{Efficiency of the two methods}
+Here we compare the efficiency of the two methods to solve the stream-function equation. In order to determine the optimal relaxation parameters we run the same problem as for the stream function verification an grid with 65x65 points. Figure \ref{fig:relax_sor} shows the time to solution for different relaxation factors. For relaxation factors larger than roughly 1.9 the iteration process becomes unstable and the solver does not converge anymore. To stay on the save we use a relaxation factor or 1.8, for all the simulations using the SOR-method.
+%
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.8]{"figs/relax_factor"}
+\caption{Time to solution for different relaxation parameters (SOR-method)}
+\label{fig:relax_sor}
+\end{figure}
+%
+Figure \ref{fig:comp_time} shows runtimes for the the SOR and the ADI method on the verification problem for the stream-function equation. The grid and the iteration tolerance were varied indepenently. The test was repeated ten times and the total time is shown. Repeated test are necessary to improve the accuracy of the timings since the timings become very inaccurate for short runtimes below 0.01 seconds. The plot shows that for small grids the the runtimes for the two methods are not very different and no clear trend is visible as of which method is faster. However for finer grids the ADI is clearly more efficient. Therefore the ADI method is the better choice for demanding simulations.
+%
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.8]{"figs/timings_adi_sor"}
+\caption{Time to solution for different for different grids and tolerances (ADI and SOR method)}
+\label{fig:comp_time}
+\end{figure}
+%
+\subsection{The square cavity}
+Here we solve the square cavity problem as introduced in the methods section. The problem is solved for two different Re numbers: 100 and 1000. To estimate the timestep we consider the two relevant non-dimensional numbers: The CFL and the Diffusion number
+\begin{equation}
+CFL = \frac{\Delta \bar{t}\bar{u}_{ref}}{\Delta x}
+\end{equation} 
+\begin{equation}
+DIF = \frac{\Delta t \nu}{\Delta x^2}
+\end{equation}
+We can rewrite the diffusion number as 
+\begin{equation}
+DIF = \frac{\Delta t \bar{u}_{ref} nx}{Re \Delta x}
+\end{equation}
+A conservative way to choose a time step could be
+\begin{equation}
+\Delta t = \frac{\Delta x}{\bar{u}_{ref}} min\left(CFL,\frac{DIF Re}{nx}\right)
+\end{equation} 
