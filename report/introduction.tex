@@ -1,19 +1,26 @@
+\title{Fundamentals of CFD: Project report}
+\author{Jan von Rickenbach}
+\maketitle
+\newpage
+
 \section{Introduction}
 %
-The goal of this project is to solve the lid driven cavity problem using a stream function vorticity method. 
+The goal of this project is to solve the lid driven cavity problem using a stream function vorticity method. The problem is introduced in the methods section. The results section consists of various code verification studies and a comparison the the experimental results of a lid-driven cavity case for two different Re numbers.
 
 \section{Methods}
 %
 \subsection{Problem statement}
-The lid driven cavity problem can be formulated as:
-
+For the two dimensional lid-driven cavity problem the following non-dimensional variables are defined:
+%
 \begin{align*}
 \bar{x} = \frac{x}{L_{ref}}, & \bar{y} = \frac{y}{L_{ref}}, & \bar{t}= \frac{t u_{ref}}{L_{ref}} , & \bar{u}=\frac{u}{u_{ref}} , & \bar{v}=\frac{v}{v_{ref}},& \bar{\zeta} = \frac{\zeta L_{ref}}{u_{ref}}, \bar{\psi} = \frac{\psi}{u_{ref} L_{ref}} \\
 \end{align*}
+$\psi$ is the streamfunction and $\zeta$ is the vorticity. In this report $L_{ref} = 1m$ and $u_{ref}=v_{ref}=u_{lid}=1 m/s$ (the lid velocity of the cavity) are used as reference scales. For all the cases considered a square domain with sidelength 1 m starting at the origin is used. The streamfunction equation can be written as
 \begin{equation}
 \frac{\partial^2 \bar{\psi}}{\partial \bar{x}^2} + \frac{\partial^2 \bar{\psi}}{\partial \bar{y}^2}=-\bar{\zeta}
+\label{eq:sf}
 \end{equation}
-and
+and the voriticity equation is
 \begin{equation}
 \frac{\partial \bar{\zeta}}{\partial \bar{t}} + \bar{u} \frac{\partial \bar{\zeta}}{\partial \bar{x}} + \bar{v} \frac{\partial \bar{\zeta}}{\partial \bar{y}} = \frac{1}{Re} \left( \frac{\partial^2 \bar{\zeta}}{\partial \bar{x}^2} + \frac{\partial^2 \bar{\zeta}}{\partial \bar{y}^2} \right)
 \end{equation}
@@ -21,7 +28,7 @@ where the velocities are given as:
 \begin{equation}
 \bar{u} = \frac{\partial \bar{\psi}}{\partial \bar{y}}
 \end{equation}
-and
+and  
 \begin{equation}
 \bar{v} = -\frac{\partial \bar{\psi}}{\partial \bar{x}}
 \end{equation}
@@ -34,22 +41,23 @@ for all the walls except the top wall where:
 \bar{u} = 1 
 \end{equation}
 \begin{equation}
-\bar{v} = 0
+\bar{v} = 0.
 \end{equation}
-This implies $u_{lid}$ = $u_{ref}$. 
+%
 \subsection{Numerical discretization}
-The equations is discretized on a regular grid with grid spacing $\Delta x$ and $\Delta y$ which results in $nx = \Delta x /L $ and $ny = \Delta y / L$. We indicate a discrete point $x_i$ = $i \Delta x$ and $y_j = j \Delta y$  and use the notation
+\subsubsection{Streamfunction equation}
+The equations are discretized on a regular grid with grid spacing $\Delta x$ and $\Delta y$ which results in $nx = \Delta x /L $ and $ny = \Delta y / L$ grids points in the two coordinate directions. A discrete point is indicated with $x_i$ = $i \Delta x$ and $y_j = j \Delta y$  and the notation
 \begin{equation}
 \phi_{i,j} = \phi(x_i,y_i)
 \end{equation} 
-The second derivatives in the vorticity equation are discretized with a centered second order scheme, which leads to the discretized streamfunction equation.
+is used. The second derivatives in the streamfunction equation are discretized with a centered second order scheme:
 \begin{equation}
-\left. \frac{\partial^2 \bar{\psi}}{\partial \bar{x}^2}\right|_{x_i,y_j} = \frac{\psi_{i-1,j} - 2 \psi_{i,j} + \psi_{i+1,j}}{\Delta x^2}
+\left. \frac{\partial^2 \bar{\psi}}{\partial \bar{x}^2}\right|_{x_i,y_j} = \frac{\psi_{i-1,j} - 2 \psi_{i,j} + \psi_{i+1,j}}{\Delta x^2} + O(\Delta x^2)
 \end{equation}
 \begin{equation}
-\left. \frac{\partial^2 \bar{\psi}}{\partial \bar{y}^2}\right|_{x_i,y_j} = \frac{\psi_{i,j-1} - 2 \psi_{i,j} + \psi_{i,j+1}}{\Delta y^2}
+\left. \frac{\partial^2 \bar{\psi}}{\partial \bar{y}^2}\right|_{x_i,y_j} = \frac{\psi_{i,j-1} - 2 \psi_{i,j} + \psi_{i,j+1}}{\Delta y^2} + O(\Delta y^2)
 \end{equation}
-We use a homogeneous Dirchlet boundary condition for the stream function since
+A homogeneous Dirchlet boundary condition for the stream function is used since
 \begin{equation}
 \bar{v} = \frac{\partial \bar{\psi}}{\partial \bar{x}} = 0
 \end{equation}
@@ -57,39 +65,122 @@ on the top and bottom boundary and
 \begin{equation}
 \bar{u} = -\frac{\partial \bar{\psi}}{\partial \bar{y}} = 0
 \end{equation}
-on the left and right boundary. Therfore the stream function is a constant on the boundary which we choose to set to zero. This leads to a system of equations with $(nx-2)(ny-2)$ unknowns for the internal grid points. 
-The terms in the vorticity equation are discretized as follows:
+on the left and right boundary. Therfore the stream function is a constant on the boundary which is chosen to be zero. This leads to a system of equations with $(nx-2)(ny-2)$ unknowns for the internal grid points. 
+\subsubsection{Vorticity equation}
+%
+The convective terms in the vorticity equation are discretized as follows:
 \begin{equation}
-\bar{u}_{i,j} = - \frac{\bar{\psi}_{i,j+1} - \bar{\psi}_{i,j-1}}{2 \Delta y}
+\bar{u}_{i,j} = - \frac{\bar{\psi}_{i,j+1} - \bar{\psi}_{i,j-1}}{2 \Delta y} + O(\Delta y^2)
 \end{equation}
 \begin{equation}
-\bar{v}_{i,j} = \frac{\bar{\psi}_{i+1,j} - \bar{\psi}_{i-1,j}}{2 \Delta x}
+\bar{v}_{i,j} = \frac{\bar{\psi}_{i+1,j} - \bar{\psi}_{i-1,j}}{2 \Delta x} + O(\Delta x^2)
 \end{equation}
 \begin{equation}
-\left. \frac{\partial \bar{\zeta}}{\partial \bar{x}} \right|_{i,j} = \frac{\bar{\zeta}_{i+1,j}- \bar{\zeta}_{i-1,j}}{2 \Delta x}
+\left. \frac{\partial \bar{\zeta}}{\partial \bar{x}} \right|_{i,j} = \frac{\bar{\zeta}_{i+1,j}- \bar{\zeta}_{i-1,j}}{2 \Delta x} + O(\Delta x^2)
 \end{equation}
 \begin{equation}
-\left. \frac{\partial \bar{\zeta}}{\partial \bar{y}} \right|_{i,j} = \frac{\bar{\zeta}_{i,j+1}- \bar{\zeta}_{i,j-1}}{2 \Delta y}
+\left. \frac{\partial \bar{\zeta}}{\partial \bar{y}} \right|_{i,j} = \frac{\bar{\zeta}_{i,j+1}- \bar{\zeta}_{i,j-1}}{2 \Delta y} + O(\Delta y^2)
 \end{equation}
 The diffusive term in the vorticity equation is discretized using second order finite differences\begin{equation}
-\left. \frac{\partial^2 \bar{\zeta}}{\partial \bar{x}^2}\right|_{x_i,y_j} = \frac{\zeta_{i-1,j} - 2 \zeta_{i,j} + \zeta_{i+1,j}}{\Delta x^2}
+\left. \frac{\partial^2 \bar{\zeta}}{\partial \bar{x}^2}\right|_{x_i,y_j} = \frac{\zeta_{i-1,j} - 2 \zeta_{i,j} + \zeta_{i+1,j}}{\Delta x^2} + O(\Delta x^2)
 \end{equation}
 \begin{equation}
-\left. \frac{\partial^2 \bar{\zeta}}{\partial \bar{y}^2}\right|_{x_i,y_j} = \frac{\zeta_{i,j-1} - 2 \zeta_{i,j} + \zeta_{i,j+1}}{\Delta y^2}
+\left. \frac{\partial^2 \bar{\zeta}}{\partial \bar{y}^2}\right|_{x_i,y_j} = \frac{\zeta_{i,j-1} - 2 \zeta_{i,j} + \zeta_{i,j+1}}{\Delta y^2} + O(\Delta y^2)
 \end{equation}
-\subsection{Solution of the discretized equations}
-The use two different methods to solve the streamfunction equation: Successive over-relaxation (SOR) and Alternate Implicit (ADI). In the SOR method we loop trough all the grid-points and update the values with.
+The boundary condition of the vorticity equation depends on the streamfunction. Since the streamfunction on the boundary is constant:
+\begin{equation}
+\frac{\partial^2 \bar{\psi}}{\partial \bar{x}^2} = - \bar{\zeta}
+\end{equation}
+on the left and right boundary and
+\begin{equation}
+\frac{\partial^2 \bar{\psi}}{\partial \bar{y}^2} = - \bar{\zeta}
+\label{eq:vort_bc}
+\end{equation}
+on the top and bottom boundary. For top boundary $\bar{u} = 1$ and $\bar{v} = 0$. Therefore 
+\begin{equation}
+\frac{\partial \bar{\psi}}{\partial \bar{y}} = 1 
+\end{equation}
+Discretizing the first derivative this can be approximated as
+\begin{equation}
+\frac{\bar{\psi}_{i,ny+1}-\bar{\psi}_{i,ny-1}}{2 \Delta y} = 1 
+\end{equation}  
+where $ny+1$ indicates a ghost point outside of the domain. Solving for the ghost point results in 
+\begin{equation}
+\bar{\psi}_{i,ny+1} = 2 \Delta y + \bar{\psi}_{i,ny-1} 
+\label{eq:psi_w}
+\end{equation}
+Discretizing Eq. \ref{eq:vort_bc}, using the fact that the streamfunction is zero on the boundary together with Eq. \ref{eq:psi_w} the vorticity on the boundary can be written as
+\begin{equation}
+\bar{\zeta}_{i,ny} = - \frac{2 (\Delta y + \bar{\psi}_{i,ny-1})}{\Delta y^2}
+\end{equation}
+%
+The boundary condition for the remaining three boundaries can be determined analogously. Since on these boundaries both velocities are zero the $\Delta y$ term in the nominator disappears:
+For the bottom boundary
+\begin{equation}
+\bar{\zeta}_{i,0} = - \frac{2 ( \bar{\psi}_{i,1})}{\Delta y^2}
+\end{equation}
+the left boundary
+\begin{equation}
+\bar{\zeta}_{0,j} = - \frac{2 ( \bar{\psi}_{1,j})}{\Delta x^2}
+\end{equation}
+and the right boundary
+\begin{equation}
+\bar{\zeta}_{nx,j} = - \frac{2 ( \bar{\psi}_{nx-1,j})}{\Delta x^2}.
+\end{equation}
+%
+\subsection{Solution streamfunction equation}
+Two different methods are used to solve the streamfunction equation: Successive over-relaxation (SOR) and the Alternate Direction Implicit Method (ADI). 
+\subsubsection{SOR method}
+In the SOR method one loops trough all the grid-points and updates the values with
 \begin{equation}
 \bar{\psi}_{i,j}^{n*} = \frac{(\bar{\psi}^n_{i+1,j} + \bar{\psi}^n_{i-1,j}) \Delta y^2 +
 (\bar{\psi}^n_{i,j+1} - \bar{\psi}^n_{i,j-1}) \Delta x^2 + \bar{\zeta}_{i,j} \Delta x^2 \Delta y^2}{2 (\Delta x + \Delta y)}
 \end{equation}
 and 
 \begin{equation}
-\bar{\psi}^{n+1}_{i,j} = \alpha \bar{\psi}_{i,j}^{n*} + (1-\alpha) \bar{\psi}^n_{i,j}
+\bar{\psi}^{n+1}_{i,j} = \alpha \bar{\psi}_{i,j}^{n*} + (1-\alpha) \bar{\psi}^n_{i,j}.
 \end{equation}
-The superscript indicates the iteration. We iterate until the error
+where $\alpha$ is an over-relaxation coefficient. The superscript indicates the iteration. The iteration stop if the error
 \begin{equation}
 e = max(abs(\bar{\psi}^{n+1}_{i,j} - \bar{\psi}^n_{i,j})
 \end{equation}
-is smaller than a prescribed iteration tolerance t.                                                                                                                                                                        We take the maximum over all the grid points.
-In the ADI method we iteratie
+is smaller than a prescribed iteration tolerance t.                                                                                                                                                                        The maximum error is taken over all the grid points.
+%
+\subsubsection{ADI method}
+%
+In the ADI method the solution is split into two sub-steps, which are repeated until the iteration tolerance is sufficiently small. An artificial time term is added to the equation and the unsteady equation is discretized using two sub steps:
+\begin{eqnarray}
+u_{i,j}^{n+1/2} = u^n_{i,j} + &\frac{d_x}{2}\left(u^{n+1/2}_{i+1,j} - 2 u^{n+1/2}_{i,j} + u^{n+1/2}_{i-1,j}\right) \\
+ +& \frac{d_y}{2}\left(u^n_{i,j+1} - 2 u^n_{i,j} + u^n_{i,j-1} \right) + f_{i,j} \frac{\Delta t}{2} 
+\end{eqnarray}
+and 
+\begin{eqnarray}
+u_{i,j}^{n} = u^{n+1/2}_{i,j} +& \frac{d_x}{2}\left(u^{n+1/2}_{i+1,j} - 2 u^{n+1/2}_{i,j} + u^{n+1/2}_{i-1,j}\right) \\
++ &\frac{d_y}{2}\left(u^{n+1}_{i,j+1} - 2 u^{n+1}_{i,j} + u^{n+1}_{i,j-1} \right) + f_{i,j} \frac{\Delta t}{2} 
+\end{eqnarray} 
+with $d_y=\Delta t/\Delta y^2$,  $d_x=\Delta t/\Delta x^2$ and u as an arbitrary scalar. For each sub-step a tridiagonal system of equations has to be solved. The tridiagonal system is inverted using the Thomas algorithm. The ADI method combines the advantages of explicit and implicit time-stepping methods. It is  unconditionally stable for linear equations  as the implicit methods and cheap per time-step, since only a tridiagonal matrix has to be inverted (as explicit methods). For the streamfunction equation the time term is artificial and the goal is to reach steady state as quick as possible. It turns out that the most efficient way to achieve the steady state is using the following sequence
+\begin{equation}
+\rho = 4 \cos^2(0.5\pi h) \left[\tan^2(0.5\pi h)\right]^{\frac{2p-1}{2p_{max}}} \mathrm{for } p=1,2,3,...,p_{max}  
+\end{equation} 
+with $d_x=d_y=1/\rho$, $\Delta x = \Delta y = h$ and
+\begin{equation}
+p_{max} = \frac{\log \tan^2(0.5\pi h)}{2\log(\sqrt{2}-1)}
+\end{equation} 
+\subsection{Solution of the vorticity equation}
+The vorticity equation is integrated in time using a forward euler method. The discretized convective (C) and the diffusive terms (D) are pushed to the right hand side. 
+\begin{equation}
+\frac{\partial \bar{\zeta}}{\partial \bar{t}} = D-C
+\end{equation}
+The forward euler method is then written as
+\begin{equation}
+\bar{\zeta}^{n+1}_{i,j} = \bar{\zeta}^{n}_{i,j} + (D-C)_{i,j} \Delta \bar{t}
+\end{equation}
+\subsection{Combined solution of the streamfunction and the vorticity equation}
+The system of equations is integrated in time as follows
+\begin{enumerate}
+\item{Initialize solution}
+\item{Set boundary conditions for the vorticity equation}
+\item{Integrate vorticity equation in time using the forward Euler method}
+\item{Solve stream function equation with ADI or SOR}
+\item{Go to 2 until endtime is reached}
+\end{enumerate}

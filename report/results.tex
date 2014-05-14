@@ -1,25 +1,26 @@
 \section{Results}
 \subsection{Code verification}
 \subsubsection{Stream function}
-To verfiy the correct implementation of the stream function equation we use the method of manufactured solutions. We use the manufactured solution:
+To verfiy the correct implementation of the stream function equation the method of manufactured solutions is used. The following manufactured solution is used:
 \begin{equation}
 \bar{\psi}_{m1}(x,y) = \sin(\pi x) \sin(\pi y).
+\label{eq:m1}
 \end{equation}
-By substituting this into the stream-function equation we obtain the corresponding function for the vorticity that satisfies the differential equation:
+By substituting Eq. \ref{eq:m1} into the stream-function equation we obtain the corresponding function for the vorticity that satisfies the differential equation:
 \begin{equation}
 \bar{\zeta}_{m1}(x,y) = 2 \pi^2 \sin(\pi x) \sin(\pi y) 
 \end{equation}
-As an initial condition the stream function is set to one everywhere except the bounndaries, where it is set to zero.
-In Fig. \ref{fig:code_verification_sf} we show the maximum error 
+As an initial condition the stream function is set to one everywhere except the bounndaries, where it is set to zero. The solution of the stream-function is obtained using the SOR and the ADI method as described in the methods section. The solution is obtained with different iteration tolerances, in order to study the impact of the iteration tolerance on the numerical solution.
+In Fig. \ref{fig:code_verification_sf} the maximum error defined as 
 \begin{equation}
 e_{max} = max(abs(\bar{\psi}_{m1} - \bar{\psi}))
 \end{equation}
-for different resolution on a computational domain extending from zero to one in the two coordinate directions.
+is shown for the two methods with different iteration tolerances.
 %
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.8]{"figs/code_verification_tol"}
-\caption{SOR and ADI}
+\caption{Error of numerical solution compared to the manufactured solution SOR and ADI with different iteration tolerances}
 \label{fig:code_verification_sf}
 \end{figure}
 %
@@ -27,27 +28,27 @@ The function
 \begin{equation}
 f_2 = C \Delta x^2
 \end{equation}
-is shown as reference. The constant C is chosen such that $f_2$ lies close to the obtained solutions.  Figure \ref{fig:code_verification_sf} shows that the leading error term is second order for sufficently fine grids. If a large iteration tolerance is chosen, the iteration error becomes dominant for the finer grids with low discretization errors.  Behaviour of the two methods studied (ADI and SOR) is similar. Differences are expected since the iteration error depends on the method. In the range where the iteration error is small the two error in the two methods is essentially the same. This is expected since the numerical method used to solve the linear system is only reflected in the iteration error. For very fine grids it is expected, that truncation errors become significant. This was not observed for the current verification study, probably because the grids are not fine enough and the disretization error is still much larger than the truncation error.
+is shown as reference. The constant C is chosen such that $f_2$ lies close to the obtained solutions and can be used to check second order decrease of the error.  Figure \ref{fig:code_verification_sf} shows that the leading error term is second order for sufficently fine grids. If a large iteration tolerance is chosen, the iteration error becomes dominant for the finer grids with low discretization errors.  Behaviour of the two methods studied (ADI and SOR) is similar. The error in the two methods is different for large iteration errors since the iteration error depends on the method. In the range where the iteration error is small the error in the two methods is essentially the same. This is expected since the numerical method used to solve the linear system is only reflected in the iteration error. For very fine grids it is expected, that truncation errors become significant. This was not observed for the current verification study, probably because the grids are not fine enough and the disretization error is still much larger than the truncation error.
 %
 %
 \subsubsection{Vorticity}
-In order to verify the implementation of the vorticity equation we choose the the same function for the vorticity as above for the stream function.
+In order to verify the implementation of the vorticity equation the same function for the vorticity as above for the stream function is chosen.
 \begin{equation}
 \bar{\zeta}_{m2}(x,y) = \sin(\pi x) \sin(\pi y)
 \end{equation}
-and for the stream-function we choose
+and for the stream-function
 \begin{equation}
 \bar{\psi}_{m2}(x,y) = y-x
 \end{equation}
-which results in a velocity of one for the two velocity components. We choose a Re number of 1 and push all the term except the time derivate to the right hand side. With the manufactured solution we obtain the right hand side:
+is used which results in a velocity of one for the two velocity components. The Re number is set to 1 and all the term except the time derivate are pushed to the right hand side. With the manufactured solution we obtain the right hand side:
 \begin{equation}
 R (x,y) = -\pi (\cos(\pi x) \sin(\pi y) + \sin(\pi x) \cos(\pi y) - 2 \pi ^2 \sin(\pi x) \sin(\pi y) 
 \end{equation}
-We add a source term S to the right hand side of the vorticity equation:
+We add a source term S to the right hand side of the vorticity equation to cancel the contribution of the convective and the diffusive term:
 \begin{equation}
 S = -R
 \end{equation}
-If we then integrate the vorticity equation for a single time step with $\Delta \bar{t}=1$ with the manufactured solution as the initial condition we should obtain the unchanged initial condition. Figure \ref{fig:code_verification_vort} shows the error of the solution at $\Delta \bar{t}=1$ compared to the manufactured solution $\bar{\psi}_{m2}$. No iteration tolerance is involved and the time disretization error is zero since the soltution remains constant in the time interval considered. Therefore the dominating error term is the discretization error. The leading error of the discretization error is second order which can be seen in the plot. Again truncation errors are not observed even for the finest grids considered.
+If the vorticity equation is integrated for a single time step with $\Delta \bar{t}=1$ with the manufactured solution as the initial condition on should obtain the unchanged initial condition. Figure \ref{fig:code_verification_euler} shows the error of the solution at $\Delta \bar{t}=1$ compared to the manufactured solution $\bar{\psi}_{m2}$. No iteration tolerance is involved and the time disretization error is zero since the solution remains constant in the time interval considered. Therefore the dominating error term is the discretization error. The leading error of the discretization error is second order which can be seen in the plot. Again truncation errors are not observed even for the finest grids considered.
 %
 \begin{figure}[H]
 \centering
@@ -56,8 +57,8 @@ If we then integrate the vorticity equation for a single time step with $\Delta 
 \label{fig:code_verification_euler}
 \end{figure}
 %
-\subsection{Efficiency of the two methods}
-Here we compare the efficiency of the two methods to solve the stream-function equation. In order to determine the optimal relaxation parameters we run the same problem as for the stream function verification an grid with 65x65 points. Figure \ref{fig:relax_sor} shows the time to solution for different relaxation factors. For relaxation factors larger than roughly 1.9 the iteration process becomes unstable and the solver does not converge anymore. To stay on the save we use a relaxation factor or 1.8, for all the simulations using the SOR-method.
+\subsection{Efficiency of the ADI and the SOR method}
+Here the efficiency of the two methods to solve the stream-function equation is compared. In order to determine the optimal relaxation parameters the same problem as for the stream function verification is run on an grid with 65x65 points. Figure \ref{fig:relax_sor} shows the time to solution for different relaxation factors with the SOR method. For relaxation factors larger than roughly 1.9 the iteration process becomes unstable and the solver does not converge anymore. To stay on the save side  a relaxation factor or 1.8 is used for all the simulations using the SOR-method.
 %
 \begin{figure}[H]
 \centering
@@ -66,22 +67,22 @@ Here we compare the efficiency of the two methods to solve the stream-function e
 \label{fig:relax_sor}
 \end{figure}
 %
-Figure \ref{fig:comp_time} shows runtimes for the the SOR and the ADI method on the verification problem for the stream-function equation. The grid and the iteration tolerance were varied indepenently. The test was repeated ten times and the total time is shown. Repeated test are necessary to improve the accuracy of the timings since the timings become very inaccurate for short runtimes below 0.01 seconds. The plot shows that for small grids the the runtimes for the two methods are not very different and no clear trend is visible as of which method is faster. However for finer grids the ADI is clearly more efficient. Therefore the ADI method is the better choice for demanding simulations.
+Figure \ref{fig:comp_time} shows runtimes for the the SOR and the ADI method on the verification problem for the stream-function equation. The grid and the iteration tolerance were varied independently. The solution of the stream-function equation was repeated ten times and the total time is shown. Repeated tests are necessary to improve the accuracy of the timings since the timings become very inaccurate for short runtimes below 0.01 seconds. The plot shows that for small grids the the runtimes for the two methods are not very different and no clear trend is visible as of which method is faster. However for finer grids the ADI method is clearly more efficient. Therefore the ADI method is the better choice for demanding simulations.
 %
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.8]{"figs/timings_adi_sor"}
-\caption{Time to solution for different for different grids and tolerances (ADI and SOR method)}
+\caption{Time to solution for different grids and tolerances (ADI and SOR method)}
 \label{fig:comp_time}
 \end{figure}
 %
-\subsection{The square cavity}
-Here we solve the square cavity problem as introduced in the methods section. The problem is solved for two different Re numbers: 100 and 1000. To estimate the timestep we consider the two relevant non-dimensional numbers: The CFL and the Diffusion number
+\subsection{The lid driven cavity}
+The lid-driven cavity problem as introduced in the methods section is solved using the ADI method. The problem is solved for two different Re numbers: 100 and 1000.  To estimate the timestep the two relevant non-dimensional numbers are considered: The CFL and the Diffusion number
 \begin{equation}
 CFL = \frac{\Delta \bar{t}\bar{u}_{ref}}{\Delta x}
 \end{equation} 
 \begin{equation}
-DIF = \frac{\Delta t \nu}{\Delta x^2}
+DIF = \frac{\Delta \bar{t} \nu}{\Delta x^2}
 \end{equation}
 We can rewrite the diffusion number as 
 \begin{equation}
@@ -91,3 +92,41 @@ A conservative way to choose a time step could be
 \begin{equation}
 \Delta t = \frac{\Delta x}{\bar{u}_{ref}} min\left(CFL,\frac{DIF Re}{nx}\right)
 \end{equation} 
+Due to the non-linearity of the Navier-Stokes equations, it is difficult to determine the exact stability region for the numerical disretization. Numerical experiments have shown that a DIF=CFL=0.05 leads to a stable solution process for the Re numbers considered. The simulations were run for 100000 timesteps in order to reach a steady state. Comparison with shorter runs showed no change in the solution and therefore a steady state was confirmed. Figures \ref{fig:cavity_100_u} - \ref{fig:cavity_1000_v} show the u-velocity at $\bar{y}=0.5$ and the v-velocity along $\bar{x}=0.5$ for the two Re numbers considered. The figures show the velocity profiles obtained with different grid resolutions. The experimental data of Ghia et al. is shown as dots. The plot clearly shows that discretization errors and iteration errors are very small since it is hardly possible to distinguish the solution for the two finest grids. A finer grid is needed to obtain small errors for the higher Re number case compared to the lower Re number case. This is most probably due to the thinner boundary layers in the high Re number case, which have to be resolved with the numerical grid. The overall match with the experimental result is very good. Deviations are very small and probably lie within the experimental errors. Modelling errors are expected to be small since the Navier Stokes equations are a very accurate description of this laminar flow.	
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.8]{"figs/uvel_100"}
+\caption{Comparison of the u-velocity along the vertical centerline at x=0.5 with the reference solution of Ghia et al.. Re=100}
+\label{fig:cavity_100_u}
+\end{figure}
+%
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.8]{"figs/vvel_100"}
+\caption{Comparison of the v-velocity along the horizontal centerline at y=0.5 with the reference solution of Ghia et al.. Re=100}
+\label{fig:cavity_100_v}
+\end{figure}
+%
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.8]{"figs/uvel_1000"}
+\caption{Comparison of the u-velocity along the vertical centerline at x=0.5 with the reference solution of Ghia et al.. Re=1000}
+\label{fig:cavity_1000_u}
+\end{figure}
+%
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.8]{"figs/vvel_1000"}
+\caption{Comparison of the v-velocity along the horizontal centerline at y=0.5 with the reference solution of Ghia et al.. Re=1000}
+\label{fig:cavity_1000_v}
+\end{figure}
+\section{Discussion of the project}
+The project clearly highlighted the points that are important in developing a CFD code:
+\begin{itemize}
+\item To have a clear idea of the overall structure of the code before starting to write code. Write down difficult algorithms on paper before starting to code them.
+\item Split a task into sub-tasks and write function/classes to achieve the tasks.
+\item Test the functions/classes for a simple case where input and output are clearly defined.
+\item Use the simplest possible case to debug a problem
+\item Document code when while writing it
+\end{itemize}
+If I had to do the project again I would use a something like a lab notbook to write the ideas and derivations down while coding. Writing the report I realized that I had to look up some equations in the code, because I lost the hand-written documentation. I would also use a task list. I often started to code and forgot some parts that I had planned initially which caused to code to fail. 

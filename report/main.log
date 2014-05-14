@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.9.1)  13 MAY 2014 21:51
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.9.1)  15 MAY 2014 01:01
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -212,134 +212,208 @@ LaTeX Font Info:    ... okay on input line 10.
 \MPscratchDim=\dimen128
 \MPnumerator=\count109
 \everyMPtoPDFconversion=\toks23
-) (./introduction.tex
-Overfull \hbox (2.18878pt too wide) in paragraph at lines 12--12
+) (./introduction.tex [1
+
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+Overfull \hbox (2.18878pt too wide) in paragraph at lines 17--17
 [] 
  []
 
-[1
-
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2]) (./results.tex
+[2] [3] [4] [5]) (./results.tex [6]
 Package epstopdf Info: Source file: <"figs/code_verification_tol".eps>
-(epstopdf)                    date: 2014-05-13 21:19:40
-(epstopdf)                    size: 72383 bytes
+(epstopdf)                    date: 2014-05-14 23:08:06
+(epstopdf)                    size: 73560 bytes
 (epstopdf)             Output file: <"figs/code_verification_tol"-eps-converted
 -to.pdf>
-(epstopdf)                    date: 2014-05-13 21:24:32
-(epstopdf)                    size: 31140 bytes
+(epstopdf)                    date: 2014-05-14 23:16:47
+(epstopdf)                    size: 32101 bytes
 (epstopdf)             Command: <epstopdf --outfile="figs/code_verification_tol
 "-eps-converted-to.pdf "figs/code_verification_tol".eps>
-(epstopdf)             \includegraphics on input line 21.
+(epstopdf)             \includegraphics on input line 22.
 Package epstopdf Info: Output file is already uptodate.
 
-<"figs/code_verification_tol"-eps-converted-to.pdf, id=17, 433.62pt x 289.08pt>
+<"figs/code_verification_tol"-eps-converted-to.pdf, id=34, 433.62pt x 289.08pt>
 File: "figs/code_verification_tol"-eps-converted-to.pdf Graphic file (type pdf)
 
 <use "figs/code_verification_tol"-eps-converted-to.pdf>
-Overfull \hbox (1.89647pt too wide) in paragraph at lines 21--22
+Overfull \hbox (1.89647pt too wide) in paragraph at lines 22--23
  [][] 
  []
 
-[3] [4 <./figs/code_verification_tol-eps-converted-to.pdf>]
-
-LaTeX Warning: Reference `fig:code_verification_vort' on page 5 undefined on in
-put line 50.
-
+[7 <./figs/code_verification_tol-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <"figs/code_verification_euler".eps>
-(epstopdf)                    date: 2014-05-13 21:22:53
-(epstopdf)                    size: 57979 bytes
+(epstopdf)                    date: 2014-05-14 23:08:25
+(epstopdf)                    size: 59156 bytes
 (epstopdf)             Output file: <"figs/code_verification_euler"-eps-convert
 ed-to.pdf>
-(epstopdf)                    date: 2014-05-13 21:24:32
-(epstopdf)                    size: 24168 bytes
+(epstopdf)                    date: 2014-05-14 23:16:47
+(epstopdf)                    size: 25126 bytes
 (epstopdf)             Command: <epstopdf --outfile="figs/code_verification_eul
 er"-eps-converted-to.pdf "figs/code_verification_euler".eps>
-(epstopdf)             \includegraphics on input line 54.
+(epstopdf)             \includegraphics on input line 55.
 Package epstopdf Info: Output file is already uptodate.
 
-<"figs/code_verification_euler"-eps-converted-to.pdf, id=76, 433.62pt x 289.08p
+<"figs/code_verification_euler"-eps-converted-to.pdf, id=91, 433.62pt x 289.08p
 t>
 File: "figs/code_verification_euler"-eps-converted-to.pdf Graphic file (type pd
 f)
  <use "figs/code_verification_euler"-eps-converted-to.pdf>
-Overfull \hbox (1.89647pt too wide) in paragraph at lines 54--55
+Overfull \hbox (1.89647pt too wide) in paragraph at lines 55--56
  [][] 
  []
 
+[8]
 Package epstopdf Info: Source file: <"figs/relax_factor".eps>
-(epstopdf)                    date: 2014-05-13 21:01:15
-(epstopdf)                    size: 21192 bytes
+(epstopdf)                    date: 2014-05-14 23:10:19
+(epstopdf)                    size: 20373 bytes
 (epstopdf)             Output file: <"figs/relax_factor"-eps-converted-to.pdf>
-(epstopdf)                    date: 2014-05-13 21:24:33
-(epstopdf)                    size: 14638 bytes
+(epstopdf)                    date: 2014-05-14 23:16:47
+(epstopdf)                    size: 15103 bytes
 (epstopdf)             Command: <epstopdf --outfile="figs/relax_factor"-eps-con
 verted-to.pdf "figs/relax_factor".eps>
-(epstopdf)             \includegraphics on input line 64.
+(epstopdf)             \includegraphics on input line 65.
 Package epstopdf Info: Output file is already uptodate.
-<"figs/relax_factor"-eps-converted-to.pdf, id=77, 433.62pt x 289.08pt>
+ <"figs/relax_factor"-eps-converted-to.pdf, id=95, 433.62pt x 289.08pt>
 File: "figs/relax_factor"-eps-converted-to.pdf Graphic file (type pdf)
 
 <use "figs/relax_factor"-eps-converted-to.pdf>
-Overfull \hbox (1.89647pt too wide) in paragraph at lines 64--65
+Overfull \hbox (1.89647pt too wide) in paragraph at lines 65--66
  [][] 
  []
 
-[5 <./figs/code_verification_euler-eps-converted-to.pdf>]
-
-LaTeX Warning: Reference `fig:comp_time' on page 6 undefined on input line 69.
-
+[9 <./figs/code_verification_euler-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <"figs/timings_adi_sor".eps>
-(epstopdf)                    date: 2014-05-13 21:29:11
-(epstopdf)                    size: 42875 bytes
+(epstopdf)                    date: 2014-05-14 23:43:49
+(epstopdf)                    size: 42883 bytes
 (epstopdf)             Output file: <"figs/timings_adi_sor"-eps-converted-to.pd
 f>
+(epstopdf)                    date: 2014-05-14 23:51:50
+(epstopdf)                    size: 19757 bytes
 (epstopdf)             Command: <epstopdf --outfile="figs/timings_adi_sor"-eps-
 converted-to.pdf "figs/timings_adi_sor".eps>
-(epstopdf)             \includegraphics on input line 73.
-runsystem(epstopdf --outfile="figs/timings_adi_sor"-eps-converted-to.pdf "figs/
-timings_adi_sor".eps)...executed.
+(epstopdf)             \includegraphics on input line 74.
+Package epstopdf Info: Output file is already uptodate.
 
-Package epstopdf Info: Result file: <"figs/timings_adi_sor"-eps-converted-to.pd
-f>
-(epstopdf)                    date: 2014-05-13 21:51:02
-(epstopdf)                    size: 19747 bytes.
-<"figs/timings_adi_sor"-eps-converted-to.pdf, id=124, 433.62pt x 289.08pt>
+<"figs/timings_adi_sor"-eps-converted-to.pdf, id=143, 433.62pt x 289.08pt>
 File: "figs/timings_adi_sor"-eps-converted-to.pdf Graphic file (type pdf)
 
 <use "figs/timings_adi_sor"-eps-converted-to.pdf>
-Overfull \hbox (1.89647pt too wide) in paragraph at lines 73--74
+Overfull \hbox (1.89647pt too wide) in paragraph at lines 74--75
  [][] 
  []
 
-[6 <./figs/relax_factor-eps-converted-to.pdf>]) [7 <./figs/timings_adi_sor-eps-
-converted-to.pdf>] (./main.aux)
+[10 <./figs/relax_factor-eps-converted-to.pdf>]
+Package epstopdf Info: Source file: <"figs/uvel_100".eps>
+(epstopdf)                    date: 2014-05-15 01:00:19
+(epstopdf)                    size: 30159 bytes
+(epstopdf)             Output file: <"figs/uvel_100"-eps-converted-to.pdf>
+(epstopdf)                    date: 2014-05-15 01:00:33
+(epstopdf)                    size: 21208 bytes
+(epstopdf)             Command: <epstopdf --outfile="figs/uvel_100"-eps-convert
+ed-to.pdf "figs/uvel_100".eps>
+(epstopdf)             \includegraphics on input line 98.
+Package epstopdf Info: Output file is already uptodate.
 
-LaTeX Warning: There were undefined references.
+<"figs/uvel_100"-eps-converted-to.pdf, id=178, 433.62pt x 289.08pt>
+File: "figs/uvel_100"-eps-converted-to.pdf Graphic file (type pdf)
 
+<use "figs/uvel_100"-eps-converted-to.pdf>
+Overfull \hbox (1.89647pt too wide) in paragraph at lines 98--99
+ [][] 
+ []
 
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+[11 <./figs/timings_adi_sor-eps-converted-to.pdf>]
+Package epstopdf Info: Source file: <"figs/vvel_100".eps>
+(epstopdf)                    date: 2014-05-15 01:00:19
+(epstopdf)                    size: 28870 bytes
+(epstopdf)             Output file: <"figs/vvel_100"-eps-converted-to.pdf>
+(epstopdf)                    date: 2014-05-15 01:00:33
+(epstopdf)                    size: 21032 bytes
+(epstopdf)             Command: <epstopdf --outfile="figs/vvel_100"-eps-convert
+ed-to.pdf "figs/vvel_100".eps>
+(epstopdf)             \includegraphics on input line 105.
+Package epstopdf Info: Output file is already uptodate.
 
- ) 
+<"figs/vvel_100"-eps-converted-to.pdf, id=219, 433.62pt x 289.08pt>
+File: "figs/vvel_100"-eps-converted-to.pdf Graphic file (type pdf)
+
+<use "figs/vvel_100"-eps-converted-to.pdf>
+Overfull \hbox (1.89647pt too wide) in paragraph at lines 105--106
+ [][] 
+ []
+
+Package epstopdf Info: Source file: <"figs/uvel_1000".eps>
+(epstopdf)                    date: 2014-05-15 01:00:19
+(epstopdf)                    size: 30254 bytes
+(epstopdf)             Output file: <"figs/uvel_1000"-eps-converted-to.pdf>
+(epstopdf)                    date: 2014-05-15 01:00:33
+(epstopdf)                    size: 21343 bytes
+(epstopdf)             Command: <epstopdf --outfile="figs/uvel_1000"-eps-conver
+ted-to.pdf "figs/uvel_1000".eps>
+(epstopdf)             \includegraphics on input line 112.
+Package epstopdf Info: Output file is already uptodate.
+<"figs/uvel_1000"-eps-converted-to.pdf, id=220, 433.62pt x 289.08pt>
+File: "figs/uvel_1000"-eps-converted-to.pdf Graphic file (type pdf)
+
+<use "figs/uvel_1000"-eps-converted-to.pdf>
+Overfull \hbox (1.89647pt too wide) in paragraph at lines 112--113
+ [][] 
+ []
+
+[12 <./figs/uvel_100-eps-converted-to.pdf>]
+Package epstopdf Info: Source file: <"figs/vvel_1000".eps>
+(epstopdf)                    date: 2014-05-15 01:00:19
+(epstopdf)                    size: 28253 bytes
+(epstopdf)             Output file: <"figs/vvel_1000"-eps-converted-to.pdf>
+(epstopdf)                    date: 2014-05-15 01:00:33
+(epstopdf)                    size: 20753 bytes
+(epstopdf)             Command: <epstopdf --outfile="figs/vvel_1000"-eps-conver
+ted-to.pdf "figs/vvel_1000".eps>
+(epstopdf)             \includegraphics on input line 119.
+Package epstopdf Info: Output file is already uptodate.
+
+<"figs/vvel_1000"-eps-converted-to.pdf, id=259, 433.62pt x 289.08pt>
+File: "figs/vvel_1000"-eps-converted-to.pdf Graphic file (type pdf)
+
+<use "figs/vvel_1000"-eps-converted-to.pdf>
+Overfull \hbox (1.89647pt too wide) in paragraph at lines 119--120
+ [][] 
+ []
+
+[13 <./figs/vvel_100-eps-converted-to.pdf>] [14 <./figs/uvel_1000-eps-converted
+-to.pdf>]
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 126.
+
+ (/usr/share/texmf-texlive/tex/latex/base/omscmr.fd
+File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 126.
+) [15 <./figs/vvel_1000-eps-converted-to.pdf>] (./main.aux) ) 
 Here is how much of TeX's memory you used:
- 1980 strings out of 495061
- 26300 string characters out of 1182622
- 85279 words of memory out of 3000000
- 5130 multiletter control sequences out of 15000+50000
- 5612 words of font info for 21 fonts, out of 3000000 for 9000
+ 2045 strings out of 495061
+ 27590 string characters out of 1182622
+ 85360 words of memory out of 3000000
+ 5179 multiletter control sequences out of 15000+50000
+ 9023 words of font info for 33 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
- 41i,9n,23p,1029b,210s stack positions out of 5000i,500n,10000p,200000b,50000s
-</usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/sha
-re/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf-te
-xlive/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texmf-texlive/fonts
-/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-texlive/fonts/type1/publ
-ic/amsfonts/cm/cmmi5.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/
-cm/cmmi7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr10.pfb
-></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/
-texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texli
-ve/fonts/type1/public/amsfonts/cm/cmsy7.pfb>
-Output written on main.pdf (7 pages, 213124 bytes).
+ 41i,9n,23p,1489b,210s stack positions out of 5000i,500n,10000p,200000b,50000s
+</usr/share/texmf-
+texlive/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texmf-texlive/fon
+ts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf-texlive/fonts/type1/pu
+blic/amsfonts/cm/cmex10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfon
+ts/cm/cmmi10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi5
+.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/s
+hare/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-t
+exlive/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-texlive/fonts
+/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texmf-texlive/fonts/type1/publi
+c/amsfonts/cm/cmr5.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm
+/cmr7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb><
+/usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/share/t
+exmf-texlive/fonts/type1/public/amsfonts/cm/cmsy7.pfb>
+Output written on main.pdf (15 pages, 352368 bytes).
 PDF statistics:
- 231 PDF objects out of 1000 (max. 8388607)
+ 417 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 21 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 41 words of extra memory for PDF output out of 10000 (max. 10000000)
 

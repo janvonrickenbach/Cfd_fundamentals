@@ -1,20 +1,39 @@
 \relax 
-\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}}
-\@writefile{toc}{\contentsline {section}{\numberline {2}Methods}{1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Problem statement}{1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Numerical discretization}{1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Solution of the discretized equations}{3}}
-\@writefile{toc}{\contentsline {section}{\numberline {3}Results}{3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Code verification}{3}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1}Stream function}{3}}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces SOR and ADI}}{4}}
-\newlabel{fig:code_verification_sf}{{1}{4}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.2}Vorticity}{4}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Error in the advection diffusion terms}}{5}}
-\newlabel{fig:code_verification_euler}{{2}{5}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Efficiency of the two methods}{5}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Time to solution for different relaxation parameters (SOR-method)}}{6}}
-\newlabel{fig:relax_sor}{{3}{6}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Time to solution for different for different grids and tolerances (ADI and SOR method)}}{7}}
-\newlabel{fig:comp_time}{{4}{7}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}The square cavity}{7}}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{2}}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Methods}{2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Problem statement}{2}}
+\newlabel{eq:sf}{{1}{2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Numerical discretization}{3}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.1}Streamfunction equation}{3}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.2}Vorticity equation}{3}}
+\newlabel{eq:vort_bc}{{20}{4}}
+\newlabel{eq:psi_w}{{23}{4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Solution streamfunction equation}{5}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.1}SOR method}{5}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.2}ADI method}{5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Solution of the vorticity equation}{6}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.5}Combined solution of the streamfunction and the vorticity equation}{6}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}Results}{6}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Code verification}{6}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1}Stream function}{6}}
+\newlabel{eq:m1}{{39}{6}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Error of numerical solution compared to the manufactured solution SOR and ADI with different iteration tolerances}}{7}}
+\newlabel{fig:code_verification_sf}{{1}{7}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.2}Vorticity}{8}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Error in the advection diffusion terms}}{9}}
+\newlabel{fig:code_verification_euler}{{2}{9}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Efficiency of the ADI and the SOR method}{9}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Time to solution for different relaxation parameters (SOR-method)}}{10}}
+\newlabel{fig:relax_sor}{{3}{10}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Time to solution for different grids and tolerances (ADI and SOR method)}}{11}}
+\newlabel{fig:comp_time}{{4}{11}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}The lid driven cavity}{11}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Comparison of the u-velocity along the vertical centerline at x=0.5 with the reference solution of Ghia et al.. Re=100}}{12}}
+\newlabel{fig:cavity_100_u}{{5}{12}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Comparison of the v-velocity along the horizontal centerline at y=0.5 with the reference solution of Ghia et al.. Re=100}}{13}}
+\newlabel{fig:cavity_100_v}{{6}{13}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Comparison of the u-velocity along the vertical centerline at x=0.5 with the reference solution of Ghia et al.. Re=1000}}{14}}
+\newlabel{fig:cavity_1000_u}{{7}{14}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Comparison of the v-velocity along the horizontal centerline at y=0.5 with the reference solution of Ghia et al.. Re=1000}}{15}}
+\newlabel{fig:cavity_1000_v}{{8}{15}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Discussion of the project}{15}}

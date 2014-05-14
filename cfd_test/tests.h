@@ -140,10 +140,10 @@ void tests::test_cavity(grid* main_grid){
 	  eq_vort->update();
       sf_src->copy(vort);
 	  sf_src->multiply(-1.0);
+	  iter=eq_sf->update();
       utils::set_vort_bc(vort,sf,main_grid->get_nx(),main_grid->get_nx()
 			             ,main_grid->get_dx(),main_grid->get_dy());
 
-	  iter=eq_sf->update();
       utils::get_velocities(sf,uvel,vvel,main_grid);
       if (ts%output_freq == 0  || ts==main_grid->get_input("max_dt")-1){
          vort->write_to_file(ts);
